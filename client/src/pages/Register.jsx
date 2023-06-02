@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
 
@@ -14,6 +15,22 @@ const Register = () => {
       prev => ({...prev, [e.target.name]: e.target.value})
     )
   }
+  async function handelSubmit(e) {
+
+  // const handelSubmit = async = e => {
+    e.preventDefault(); 
+     const res = await axios.post('/auth/register',inputs)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+ 
+  }
+
+  // console.log(inputs);
+
 
   return (
     <div className='auth'>
@@ -34,7 +51,7 @@ const Register = () => {
           </div>
           <div className="error">Some Error</div>
           <div class=" mb-3">  If you are not registred then <Link to="/register" >Register Here</Link>  </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" onClick={handelSubmit}>Submit</button>
         </div>
         
       </form>
