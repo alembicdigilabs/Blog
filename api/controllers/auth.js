@@ -1,5 +1,6 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 
 export const register = (req, res) => {
@@ -21,7 +22,7 @@ export const register = (req, res) => {
             hash,
         ];
         db.query(q, [values], (err, data) => {
-            if(err) return res.json(err)
+            if(err) return res.json(err);
             if(data.length) return res.status(200).json("User has been created");
         }); 
     
@@ -30,6 +31,27 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
     res.json("from controller");
+    //Check User 
+    const q = "SELECT * FROM users WHERE email = ?";
+    db.query(q, [req.body.email], (err, data) => {
+        if(err) return res.json(err)
+        if(data.length === 0) return res.status(404).json("Invalid details.");
+
+        // Check Password
+        const isPasswordCorrect = bcrypt.compareSync(req.body.password, data[0].password);
+
+        if(!isPasswordCorrect) return res.status(400).json("Wrong email or password");
+
+        const token = jwt.sign({id:data[0].id}, "jqtkey"); // jqtkey is seceret key 
+        const {password, ...other} = data[0];
+
+        res.cookie("access_token", token, {
+            httpOnly : true
+        }).status(200).json(other);
+
+    });
+
+
 }
 
 export const logout = (req, res) => {
