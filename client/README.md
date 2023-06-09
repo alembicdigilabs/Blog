@@ -63,3 +63,6 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 $ npm init -y             // initialize node application
 $ npm i express mysql nodemon             // add express framework, mysql, and nodemon(live coding server)
+
+
+To access user state anywhere in application  instead of using Redux, Context used

@@ -19,7 +19,7 @@ const Register = () => {
   }
 
   async function handelSubmit(e) {
-    // navigate("/login");
+    
      
     e.preventDefault(); 
 
@@ -36,15 +36,15 @@ const Register = () => {
     // if(!err){  alert("user created");  }
 
     try{
-      await axios.post('/auth/register', inputs);
-      console.log("asd");
-      // navigate("/login");
+     const respp =  await axios.post('auth/register', inputs);
+      console.log(respp); 
+        navigate("/login");  
     }catch(erro){
       console.log(erro);
       setErr(erro.response.data);
     }
 
-    if(!err){   navigate("/login");  }  // if there is not any error then redirect to login page 
+    // if(!err){   navigate("/login");  }  // if there is not any error then redirect to login page 
 
 
   }
@@ -67,7 +67,7 @@ const Register = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="pwd" className="form-label">Password:</label>
-            <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pswd" onChange={handleChange} />
+            <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="password" onChange={handleChange} />
           </div>
           {/* <div className="error" style={{display:"block"}}>{  }</div> */}
           { err && <div className="error" style={{display:"block"}}>{ err }</div> }
