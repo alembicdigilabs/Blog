@@ -1,5 +1,5 @@
 import express from 'express';
-import {addPost} from '../controllers/post.js';
+import {getPost, getPosts, addPost, deletePost, updatePost } from '../controllers/post.js';
 
 const router = express.Router();
 
@@ -7,7 +7,12 @@ const router = express.Router();
 //     res.json("this is post");
 // });
 // **** OR Instead of writing opertations here we seperated app login in controllers ****
-router.get("/test", addPost);
+router.get("/", getPosts);
+router.get("/:id", getPost);
+router.post("/", addPost);
+router.post("/delete", deletePost);
+router.put("/update", updatePost);
+
 
 export default router;
  

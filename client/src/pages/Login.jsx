@@ -14,7 +14,7 @@ const Login = () => {
 
   const { login } = useContext(AuthContext);
   // console.log(currentUser);
-  
+
   const handleChange = e => {
     setInputs(
       prev => ({...prev, [e.target.name]: e.target.value})
@@ -24,14 +24,22 @@ const Login = () => {
   async function handelSubmit(e) {
     e.preventDefault();  
     try{
-    //  const resppp =  await axios.post('/auth/login', inputs);
-      login(inputs)
-      // console.log(resppp);
-      navigate("/");
+     const resppp =  await axios.post('/auth/login', inputs);
+     if(resppp.status == 200){
+
+        console.log(resppp);
+        await login(resppp.data) // call login function of authContext
+        navigate("/");
+
+     }else{
+      setErr(resppp.data); 
+     } 
+      
     }catch(erro){
       console.log(erro);
       setErr(erro.response.data);
     }
+      // console.log(resppp);
 
     // if(!err){   navigate("/");  }  // if there is not any error then redirect to profile page  
 
@@ -60,4 +68,5 @@ const Login = () => {
     </div>
   )
 }
+
 export default Login;
